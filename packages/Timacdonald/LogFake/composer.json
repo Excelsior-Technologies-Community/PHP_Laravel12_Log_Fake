@@ -1,0 +1,18 @@
+{
+    "name": "timacdonald/log-fake",
+    "description": "Fake logger for Laravel testing",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Timacdonald\\LogFake\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Timacdonald\\LogFake\\LogFakeServiceProvider"
+            ]
+        }
+    }
+}
