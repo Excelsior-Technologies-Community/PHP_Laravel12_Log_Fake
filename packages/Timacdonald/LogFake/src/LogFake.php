@@ -56,21 +56,47 @@ class LogFake implements LoggerInterface
 
     protected function write($level, $message, array $context = []): void
     {
-        $this->records[] = [
+        $records = session()->get('fake_logs', []);
+
+        $records[] = [
             'level' => $level,
             'message' => (string) $message,
-            'context' => $context
+            'context' => $context,
+            'time' => now()->format('d M Y h:i:s A'),
         ];
+
+        session()->put('fake_logs', $records);
+
+        $this->records = $records;
     }
 
     public function records(): array
     {
-        return $this->records;
+        return session()->get('fake_logs', []);
+    }
+
+    public function clear(): void
+    {
+        session()->forget('fake_logs');
+
+        $this->records = [];
+    }
+
+    public function countByLevel($level): int
+    {
+        $records = session()->get('fake_logs', []);
+
+        return count(array_filter($records, function ($record) use ($level) {
+            return $record['level'] === $level;
+        }));
     }
 
     public function assertLogged($level, $message = null): bool
     {
-        foreach ($this->records as $record) {
+        $records = session()->get('fake_logs', []);
+
+        foreach ($records as $record) {
+
             if (
                 $record['level'] === $level &&
                 ($message === null || str_contains($record['message'], $message))
