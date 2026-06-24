@@ -7,13 +7,12 @@ use Illuminate\Http\Request;
 class LogDashboardController extends Controller
 {
     protected $fakeLogger;
-    
+
     public function __construct()
     {
         $this->fakeLogger = app('log.fake');
     }
-    
-    // Get live counts for real-time updates
+
     public function getCounts()
     {
         return response()->json([
@@ -27,14 +26,38 @@ class LogDashboardController extends Controller
         ]);
     }
 
-    // Main dashboard with enhanced filters
+    public function checkNewAlerts(Request $request)
+    {
+        $since = (int) $request->get('since', 0);
+        $newRecords = $this->fakeLogger->recordsSince($since);
+
+        $alerts = array_values(array_filter($newRecords, function ($record) {
+            return in_array($record['level'], ['error', 'critical']);
+        }));
+
+        $latestTimestamp = $since;
+        foreach ($newRecords as $record) {
+            $latestTimestamp = max($latestTimestamp, $record['timestamp'] ?? 0);
+        }
+
+        return response()->json([
+            'alerts' => $alerts,
+            'latestTimestamp' => $latestTimestamp,
+        ]);
+    }
+
     public function index(Request $request)
     {
-        // Use the formatted records
         $records = $this->fakeLogger->getFormattedRecords();
+
+        // purana/incomplete session records (jema 'id' jevi keys missing hoy)
+        // ne filter kari kadhi nakho, jethi view ma error na aave
+        $records = array_values(array_filter($records, function ($record) {
+            return isset($record['id'], $record['level'], $record['message'], $record['time']);
+        }));
+
         $logs = collect($records);
-        
-        // Search filter
+
         if ($request->search) {
             $logs = $logs->filter(function ($log) use ($request) {
                 return str_contains(
@@ -43,39 +66,41 @@ class LogDashboardController extends Controller
                 );
             });
         }
-        
-        // Level filter
+
         if ($request->level) {
-            $logs = $logs->filter(function ($log) use ($request) {
-                return $log['level'] == $request->level;
+            $levels = is_array($request->level) ? $request->level : [$request->level];
+            $logs = $logs->filter(function ($log) use ($levels) {
+                return in_array($log['level'], $levels);
             });
         }
-        
-        // Date range filter
+
+        if ($request->user_name) {
+            $logs = $logs->filter(function ($log) use ($request) {
+                return ($log['user_name'] ?? null) === $request->user_name;
+            });
+        }
+
         if ($request->date_from) {
             $logs = $logs->filter(function ($log) use ($request) {
                 return strtotime($log['time']) >= strtotime($request->date_from);
             });
         }
-        
+
         if ($request->date_to) {
             $logs = $logs->filter(function ($log) use ($request) {
                 return strtotime($log['time']) <= strtotime($request->date_to . ' 23:59:59');
             });
         }
-        
-        // Sorting (newest first by default)
-        $logs = $logs->sortByDesc('time');
+
+        $logs = $logs->sortByDesc('timestamp');
         $logs = $logs->values();
-        
-        // Pagination
+
         $perPage = 20;
         $currentPage = $request->get('page', 1);
         $paginatedLogs = $logs->forPage($currentPage, $perPage);
         $total = $logs->count();
-        $lastPage = ceil($total / $perPage);
-        
-        // Statistics for chart
+        $lastPage = max(1, ceil($total / $perPage));
+
         $levelStats = [
             'info' => $this->fakeLogger->countByLevel('info'),
             'warning' => $this->fakeLogger->countByLevel('warning'),
@@ -84,7 +109,7 @@ class LogDashboardController extends Controller
             'notice' => $this->fakeLogger->countByLevel('notice'),
             'critical' => $this->fakeLogger->countByLevel('critical'),
         ];
-        
+
         return view('logs.dashboard', [
             'logs' => $paginatedLogs,
             'infoCount' => $this->fakeLogger->countByLevel('info'),
@@ -99,10 +124,13 @@ class LogDashboardController extends Controller
             'lastPage' => $lastPage,
             'total' => $total,
             'perPage' => $perPage,
+            'allUsers' => $this->fakeLogger->allUsers(),
+            'userLogCounts' => $this->fakeLogger->userLogCounts(),
+            'hourlyTimeline' => $this->fakeLogger->hourlyTimeline(),
+            'nowTimestamp' => now()->timestamp,
         ]);
     }
-    
-    // Generate demo logs
+
     public function generate()
     {
         $messages = [
@@ -153,16 +181,15 @@ class LogDashboardController extends Controller
                 'Application crash detected',
                 'Data loss possible',
                 'Critical service unavailable',
-            ]
+            ],
         ];
-        
-        // Generate 10-20 random logs
+
         $count = rand(10, 20);
         for ($i = 0; $i < $count; $i++) {
             $level = array_rand($messages);
             $messageArray = $messages[$level];
             $message = $messageArray[array_rand($messageArray)];
-            
+
             switch ($level) {
                 case 'info':
                     $this->fakeLogger->info($message . ' [ID:' . rand(1000, 9999) . ']');
@@ -184,121 +211,101 @@ class LogDashboardController extends Controller
                     break;
             }
         }
-        
+
         return redirect('/logs')
             ->with('success', $count . ' demo logs generated successfully.');
     }
-    
-    // Clear all logs
+
     public function clear()
     {
         $this->fakeLogger->clear();
-        
+
         return redirect('/logs')
             ->with('success', 'All logs cleared successfully.');
     }
-    
-    // Bulk delete selected logs
+
     public function bulkDelete(Request $request)
     {
-        $indices = json_decode($request->input('indices', '[]'), true);
-        
-        if (empty($indices)) {
+        $ids = json_decode($request->input('indices', '[]'), true);
+
+        if (empty($ids)) {
             return redirect('/logs')
                 ->with('error', 'No logs selected for deletion.');
         }
-        
+
         $records = $this->fakeLogger->records();
-        
-        // Convert to array if needed
-        $recordsArray = [];
-        foreach ($records as $record) {
-            if (is_object($record)) {
-                $recordsArray[] = (array)$record;
-            } else {
-                $recordsArray[] = $record;
-            }
-        }
-        
-        // Remove selected indices (sort descending to avoid index shifting)
-        rsort($indices);
-        foreach ($indices as $index) {
-            if (isset($recordsArray[$index])) {
-                unset($recordsArray[$index]);
-            }
-        }
-        
-        // Re-index and save
-        $this->fakeLogger->setRecords(array_values($recordsArray));
-        
+
+        $remaining = array_values(array_filter($records, function ($record) use ($ids) {
+            return ! in_array($record['id'], $ids);
+        }));
+
+        $this->fakeLogger->setRecords($remaining);
+
         return redirect('/logs')
-            ->with('success', count($indices) . ' log(s) deleted successfully.');
+            ->with('success', count($ids) . ' log(s) deleted successfully.');
     }
-    
-    // Export as JSON
+
     public function export()
     {
         $records = $this->fakeLogger->getFormattedRecords();
-        
+
         return response()->json([
             'status' => true,
             'export_date' => now()->toDateTimeString(),
             'total_logs' => count($records),
             'logs' => $records,
         ], 200, [
-            'Content-Disposition' => 'attachment; filename="logs_' . date('Y-m-d_H-i-s') . '.json"'
+            'Content-Disposition' => 'attachment; filename="logs_' . date('Y-m-d_H-i-s') . '.json"',
         ]);
     }
-    
-    // Export as CSV
+
     public function exportCsv()
     {
         $records = $this->fakeLogger->getFormattedRecords();
-        
+
         $filename = 'logs_' . date('Y-m-d_H-i-s') . '.csv';
         $handle = fopen('php://temp', 'w');
-        
-        // Add headers
-        fputcsv($handle, ['Level', 'Message', 'Time']);
-        
-        // Add data
+
+        fputcsv($handle, ['Level', 'Message', 'User', 'Time']);
+
         foreach ($records as $record) {
             fputcsv($handle, [
                 strtoupper($record['level']),
                 $record['message'],
-                $record['time']
+                $record['user_name'] ?? '',
+                $record['time'],
             ]);
         }
-        
+
         rewind($handle);
         $content = stream_get_contents($handle);
         fclose($handle);
-        
+
         return response($content, 200, [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => 'attachment; filename="' . $filename . '"',
         ]);
     }
-    
-    // Export as TXT
+
     public function exportTxt()
     {
         $records = $this->fakeLogger->getFormattedRecords();
-        
+
         $content = "=== LOG EXPORT - " . date('Y-m-d H:i:s') . " ===\n";
         $content .= "Total Logs: " . count($records) . "\n";
         $content .= str_repeat('=', 60) . "\n\n";
-        
+
         foreach ($records as $index => $record) {
             $content .= sprintf(
-                "[%d] %s | %s\n    Message: %s\n\n",
+                "[%d] %s | %s | User: %s\n    Message: %s\n\n",
                 $index + 1,
                 strtoupper($record['level']),
                 $record['time'],
+                $record['user_name'] ?? 'Unknown',
                 $record['message']
             );
         }
-        
+
         return response($content, 200, [
             'Content-Type' => 'text/plain',
             'Content-Disposition' => 'attachment; filename="logs_' . date('Y-m-d_H-i-s') . '.txt"',

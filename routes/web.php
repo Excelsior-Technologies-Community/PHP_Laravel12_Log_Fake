@@ -15,3 +15,4 @@ Route::get('/logs/export', [LogDashboardController::class, 'export']);
 Route::get('/logs/export-csv', [LogDashboardController::class, 'exportCsv']);
 Route::get('/logs/export-txt', [LogDashboardController::class, 'exportTxt']);
 Route::get('/logs/counts', [LogDashboardController::class, 'getCounts']);
+Route::get('/logs/check-alerts', [LogDashboardController::class, 'checkNewAlerts']);
