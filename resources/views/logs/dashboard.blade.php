@@ -24,7 +24,6 @@
             margin: 0 auto;
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -66,52 +65,17 @@
             gap: 6px;
         }
 
-        .btn-primary {
-            background: #3b82f6;
-            color: white;
-        }
+        .btn-primary { background: #3b82f6; color: white; }
+        .btn-primary:hover { background: #2563eb; }
+        .btn-success { background: #10b981; color: white; }
+        .btn-success:hover { background: #059669; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-warning:hover { background: #d97706; }
+        .btn-danger { background: #ef4444; color: white; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-secondary { background: #334155; color: white; }
+        .btn-secondary:hover { background: #475569; }
 
-        .btn-primary:hover {
-            background: #2563eb;
-        }
-
-        .btn-success {
-            background: #10b981;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #059669;
-        }
-
-        .btn-warning {
-            background: #f59e0b;
-            color: white;
-        }
-
-        .btn-warning:hover {
-            background: #d97706;
-        }
-
-        .btn-danger {
-            background: #ef4444;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-
-        .btn-secondary {
-            background: #334155;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #475569;
-        }
-
-        /* Alert Messages */
         .alert {
             padding: 14px 20px;
             border-radius: 10px;
@@ -119,17 +83,9 @@
             font-size: 14px;
         }
 
-        .alert-success {
-            background: #065f46;
-            border-left: 4px solid #10b981;
-        }
+        .alert-success { background: #065f46; border-left: 4px solid #10b981; }
+        .alert-error { background: #991b1b; border-left: 4px solid #ef4444; }
 
-        .alert-error {
-            background: #991b1b;
-            border-left: 4px solid #ef4444;
-        }
-
-        /* Stats Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -144,9 +100,7 @@
             transition: transform 0.2s;
         }
 
-        .stat-card:hover {
-            transform: translateY(-2px);
-        }
+        .stat-card:hover { transform: translateY(-2px); }
 
         .stat-card .label {
             font-size: 13px;
@@ -165,12 +119,21 @@
         .stat-card.debug .value { color: #10b981; }
         .stat-card.total .value { color: #a78bfa; }
 
-        /* Chart Section */
-        .chart-section {
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        @media (max-width: 1000px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+
+        .chart-section, .leaderboard-section {
             background: #1e293b;
             border-radius: 16px;
             padding: 20px;
-            margin-bottom: 28px;
         }
 
         .chart-title {
@@ -185,6 +148,7 @@
             gap: 20px;
             flex-wrap: wrap;
             align-items: flex-end;
+            margin-bottom: 24px;
         }
 
         .chart-bar-item {
@@ -218,19 +182,81 @@
         .bar.notice { background: #8b5cf6; }
         .bar.critical { background: #ec489a; }
 
-        .bar-label {
+        .bar-label { font-size: 12px; font-weight: 500; margin-top: 6px; }
+        .bar-count { font-size: 14px; font-weight: 600; margin-top: 4px; }
+
+        .timeline-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 80px;
+        }
+
+        .timeline-bar-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .timeline-bar {
+            width: 100%;
+            background: #3b82f6;
+            border-radius: 3px 3px 0 0;
+            min-height: 2px;
+        }
+
+        .timeline-bar-wrap:hover .timeline-bar { background: #60a5fa; }
+
+        .timeline-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #64748b;
+            margin-top: 8px;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #334155;
+        }
+
+        .leaderboard-item:last-child { border-bottom: none; }
+
+        .leaderboard-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #3b82f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 12px;
-            font-weight: 500;
-            margin-top: 6px;
-        }
-
-        .bar-count {
-            font-size: 14px;
             font-weight: 600;
-            margin-top: 4px;
+            color: white;
+            flex-shrink: 0;
         }
 
-        /* Filters */
+        .leaderboard-count {
+            background: #334155;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
         .filters-card {
             background: #1e293b;
             border-radius: 16px;
@@ -245,10 +271,7 @@
             align-items: flex-end;
         }
 
-        .filter-group {
-            flex: 1;
-            min-width: 160px;
-        }
+        .filter-group { flex: 1; min-width: 160px; }
 
         .filter-group label {
             display: block;
@@ -257,8 +280,7 @@
             margin-bottom: 6px;
         }
 
-        .filter-group input,
-        .filter-group select {
+        .filter-group input, .filter-group select {
             width: 100%;
             padding: 10px 12px;
             border-radius: 8px;
@@ -268,17 +290,38 @@
             font-size: 14px;
         }
 
-        .filter-group input:focus,
-        .filter-group select:focus {
+        .filter-group input:focus, .filter-group select:focus {
             outline: none;
             border-color: #3b82f6;
         }
 
+        .level-checkboxes {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 10px 0;
+        }
+
+        .level-checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #0f172a;
+            padding: 7px 12px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .level-checkbox-item input { cursor: pointer; }
+
         .auto-refresh {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 16px;
             margin-left: auto;
+            flex-wrap: wrap;
         }
 
         .auto-refresh label {
@@ -286,9 +329,9 @@
             align-items: center;
             gap: 8px;
             cursor: pointer;
+            font-size: 13px;
         }
 
-        /* Bulk Actions */
         .bulk-actions {
             background: #1e293b;
             border-radius: 12px;
@@ -301,26 +344,17 @@
             gap: 12px;
         }
 
-        .bulk-actions.show {
-            display: flex;
-        }
+        .bulk-actions.show { display: flex; }
 
-        .selected-count {
-            font-size: 14px;
-            color: #94a3b8;
-        }
+        .selected-count { font-size: 14px; color: #94a3b8; }
 
-        /* Table */
         .table-container {
             overflow-x: auto;
             background: #1e293b;
             border-radius: 16px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        table { width: 100%; border-collapse: collapse; }
 
         th {
             background: #334155;
@@ -337,23 +371,11 @@
             font-size: 14px;
         }
 
-        tr {
-            cursor: pointer;
-            transition: background 0.2s;
-        }
+        tr { cursor: pointer; transition: background 0.2s; }
+        tr:hover { background: #2d3a4e; }
+        tr.selected { background: #3b82f633; }
 
-        tr:hover {
-            background: #2d3a4e;
-        }
-
-        tr.selected {
-            background: #3b82f633;
-        }
-
-        .checkbox-col {
-            width: 40px;
-            text-align: center;
-        }
+        .checkbox-col { width: 40px; text-align: center; }
 
         .checkbox-col input {
             width: 18px;
@@ -362,7 +384,6 @@
             accent-color: #3b82f6;
         }
 
-        /* Badges */
         .badge {
             display: inline-block;
             padding: 5px 12px;
@@ -379,9 +400,8 @@
         .badge-notice { background: #8b5cf6; }
         .badge-critical { background: #ec489a; }
 
-        /* Message cell */
         .message-cell {
-            max-width: 500px;
+            max-width: 420px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -398,12 +418,15 @@
             border-radius: 4px;
         }
 
-        .copy-btn:hover {
-            background: #475569;
-            color: white;
+        .copy-btn:hover { background: #475569; color: white; }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
         }
 
-        /* Pagination */
         .pagination {
             display: flex;
             justify-content: center;
@@ -421,33 +444,20 @@
             font-size: 14px;
         }
 
-        .pagination a:hover {
-            background: #3b82f6;
-            color: white;
-        }
+        .pagination a:hover { background: #3b82f6; color: white; }
+        .pagination .active { background: #3b82f6; color: white; }
 
-        .pagination .active {
-            background: #3b82f6;
-            color: white;
-        }
-
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.8);
             z-index: 1000;
             justify-content: center;
             align-items: center;
         }
 
-        .modal.show {
-            display: flex;
-        }
+        .modal.show { display: flex; }
 
         .modal-content {
             background: #1e293b;
@@ -466,9 +476,7 @@
             align-items: center;
         }
 
-        .modal-header h3 {
-            font-size: 18px;
-        }
+        .modal-header h3 { font-size: 18px; }
 
         .modal-close {
             background: none;
@@ -478,17 +486,11 @@
             cursor: pointer;
         }
 
-        .modal-close:hover {
-            color: white;
-        }
+        .modal-close:hover { color: white; }
 
-        .modal-body {
-            padding: 24px;
-        }
+        .modal-body { padding: 24px; }
 
-        .detail-row {
-            margin-bottom: 20px;
-        }
+        .detail-row { margin-bottom: 20px; }
 
         .detail-label {
             font-size: 11px;
@@ -513,43 +515,96 @@
             gap: 10px;
         }
 
-        /* Responsive */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 360px;
+        }
+
+        .toast {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 14px 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            border-left: 4px solid #ef4444;
+            animation: slideIn 0.3s ease-out;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .toast.critical { border-left-color: #ec489a; }
+
+        .toast-icon { font-size: 18px; flex-shrink: 0; }
+
+        .toast-body { flex: 1; }
+
+        .toast-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .toast.critical .toast-title { color: #ec489a; }
+        .toast:not(.critical) .toast-title { color: #ef4444; }
+
+        .toast-message { font-size: 13px; color: #cbd5e1; }
+        .toast-meta { font-size: 11px; color: #64748b; margin-top: 4px; }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .toast-close:hover { color: white; }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        .toast.fade-out { animation: fadeOut 0.3s ease-out forwards; }
+
         @media (max-width: 768px) {
             body { padding: 16px; }
             .title h1 { font-size: 24px; }
             .stat-card .value { font-size: 28px; }
             .message-cell { max-width: 200px; }
             .chart-bar-item { min-width: 50px; }
+            .toast-container { left: 12px; right: 12px; max-width: none; }
         }
 
-        /* Loading */
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        select:disabled, button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        select:disabled, button:disabled { opacity: 0.5; cursor: not-allowed; }
     </style>
 </head>
 <body>
+    <div class="toast-container" id="toastContainer"></div>
+
     <div class="container">
-        
+
         @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+        <div class="alert alert-success">{{ session('success') }}</div>
         @endif
-        
+
         @if(session('error'))
-        <div class="alert alert-error">
-            {{ session('error') }}
-        </div>
+        <div class="alert alert-error">{{ session('error') }}</div>
         @endif
-        
-        <!-- Header -->
+
         <div class="header">
             <div class="title">
                 <h1>Log Dashboard</h1>
@@ -566,8 +621,7 @@
                 </form>
             </div>
         </div>
-        
-        <!-- Stats Cards -->
+
         <div class="stats-grid" id="statsGrid">
             <div class="stat-card info">
                 <div class="label">INFO</div>
@@ -590,45 +644,74 @@
                 <div class="value" id="totalCount">{{ $totalCount }}</div>
             </div>
         </div>
-        
-        <!-- Chart Section -->
-        <div class="chart-section">
-            <div class="chart-title">Log Distribution</div>
-            <div class="chart-bars">
-                <div class="chart-bar-item">
-                    <div class="bar-container"><div class="bar info" style="height: {{ min(120, $levelStats['info'] * 3) }}px"></div></div>
-                    <div class="bar-label">INFO</div>
-                    <div class="bar-count">{{ $levelStats['info'] }}</div>
+
+        <div class="dashboard-grid">
+            <div class="chart-section">
+                <div class="chart-title">Log Distribution</div>
+                <div class="chart-bars">
+                    <div class="chart-bar-item">
+                        <div class="bar-container"><div class="bar info" style="height: {{ min(120, $levelStats['info'] * 3) }}px"></div></div>
+                        <div class="bar-label">INFO</div>
+                        <div class="bar-count">{{ $levelStats['info'] }}</div>
+                    </div>
+                    <div class="chart-bar-item">
+                        <div class="bar-container"><div class="bar warning" style="height: {{ min(120, $levelStats['warning'] * 3) }}px"></div></div>
+                        <div class="bar-label">WARNING</div>
+                        <div class="bar-count">{{ $levelStats['warning'] }}</div>
+                    </div>
+                    <div class="chart-bar-item">
+                        <div class="bar-container"><div class="bar error" style="height: {{ min(120, $levelStats['error'] * 3) }}px"></div></div>
+                        <div class="bar-label">ERROR</div>
+                        <div class="bar-count">{{ $levelStats['error'] }}</div>
+                    </div>
+                    <div class="chart-bar-item">
+                        <div class="bar-container"><div class="bar debug" style="height: {{ min(120, $levelStats['debug'] * 3) }}px"></div></div>
+                        <div class="bar-label">DEBUG</div>
+                        <div class="bar-count">{{ $levelStats['debug'] }}</div>
+                    </div>
+                    <div class="chart-bar-item">
+                        <div class="bar-container"><div class="bar notice" style="height: {{ min(120, $levelStats['notice'] * 3) }}px"></div></div>
+                        <div class="bar-label">NOTICE</div>
+                        <div class="bar-count">{{ $levelStats['notice'] }}</div>
+                    </div>
+                    <div class="chart-bar-item">
+                        <div class="bar-container"><div class="bar critical" style="height: {{ min(120, $levelStats['critical'] * 3) }}px"></div></div>
+                        <div class="bar-label">CRITICAL</div>
+                        <div class="bar-count">{{ $levelStats['critical'] }}</div>
+                    </div>
                 </div>
-                <div class="chart-bar-item">
-                    <div class="bar-container"><div class="bar warning" style="height: {{ min(120, $levelStats['warning'] * 3) }}px"></div></div>
-                    <div class="bar-label">WARNING</div>
-                    <div class="bar-count">{{ $levelStats['warning'] }}</div>
+
+                <div class="chart-title">Last 24 Hours</div>
+                @php $maxTimeline = max(1, max($hourlyTimeline)); @endphp
+                <div class="timeline-chart">
+                    @foreach($hourlyTimeline as $hour => $count)
+                        <div class="timeline-bar-wrap" title="{{ $hour }} — {{ $count }} logs">
+                            <div class="timeline-bar" style="height: {{ $count > 0 ? max(4, ($count / $maxTimeline) * 100) : 2 }}%"></div>
+                        </div>
+                    @endforeach
                 </div>
-                <div class="chart-bar-item">
-                    <div class="bar-container"><div class="bar error" style="height: {{ min(120, $levelStats['error'] * 3) }}px"></div></div>
-                    <div class="bar-label">ERROR</div>
-                    <div class="bar-count">{{ $levelStats['error'] }}</div>
-                </div>
-                <div class="chart-bar-item">
-                    <div class="bar-container"><div class="bar debug" style="height: {{ min(120, $levelStats['debug'] * 3) }}px"></div></div>
-                    <div class="bar-label">DEBUG</div>
-                    <div class="bar-count">{{ $levelStats['debug'] }}</div>
-                </div>
-                <div class="chart-bar-item">
-                    <div class="bar-container"><div class="bar notice" style="height: {{ min(120, $levelStats['notice'] * 3) }}px"></div></div>
-                    <div class="bar-label">NOTICE</div>
-                    <div class="bar-count">{{ $levelStats['notice'] }}</div>
-                </div>
-                <div class="chart-bar-item">
-                    <div class="bar-container"><div class="bar critical" style="height: {{ min(120, $levelStats['critical'] * 3) }}px"></div></div>
-                    <div class="bar-label">CRITICAL</div>
-                    <div class="bar-count">{{ $levelStats['critical'] }}</div>
+                <div class="timeline-labels">
+                    <span>{{ array_key_first($hourlyTimeline) }}</span>
+                    <span>now</span>
                 </div>
             </div>
+
+            <div class="leaderboard-section">
+                <div class="chart-title">Top Users by Log Count</div>
+                @forelse(array_slice($userLogCounts, 0, 8, true) as $userName => $count)
+                    <div class="leaderboard-item">
+                        <div class="leaderboard-user">
+                            <div class="user-avatar">{{ strtoupper(substr($userName, 0, 1)) }}</div>
+                            <span>{{ $userName }}</span>
+                        </div>
+                        <span class="leaderboard-count">{{ $count }}</span>
+                    </div>
+                @empty
+                    <p style="color:#64748b; font-size: 13px;">No data yet.</p>
+                @endforelse
+            </div>
         </div>
-        
-        <!-- Filters -->
+
         <div class="filters-card">
             <form method="GET" action="/logs" id="filterForm">
                 <div class="filters-row">
@@ -637,15 +720,12 @@
                         <input type="text" name="search" placeholder="Search logs..." value="{{ request('search') }}" id="searchInput">
                     </div>
                     <div class="filter-group">
-                        <label>Log Level</label>
-                        <select name="level" id="levelSelect">
-                            <option value="">All Levels</option>
-                            <option value="info" {{ request('level') == 'info' ? 'selected' : '' }}>Info</option>
-                            <option value="warning" {{ request('level') == 'warning' ? 'selected' : '' }}>Warning</option>
-                            <option value="error" {{ request('level') == 'error' ? 'selected' : '' }}>Error</option>
-                            <option value="debug" {{ request('level') == 'debug' ? 'selected' : '' }}>Debug</option>
-                            <option value="notice" {{ request('level') == 'notice' ? 'selected' : '' }}>Notice</option>
-                            <option value="critical" {{ request('level') == 'critical' ? 'selected' : '' }}>Critical</option>
+                        <label>User</label>
+                        <select name="user_name" id="userSelect">
+                            <option value="">All Users</option>
+                            @foreach($allUsers as $u)
+                                <option value="{{ $u['name'] }}" {{ request('user_name') == $u['name'] ? 'selected' : '' }}>{{ $u['name'] }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="filter-group">
@@ -660,34 +740,48 @@
                         <label>&nbsp;</label>
                         <button type="submit" class="btn btn-primary" style="width: 100%;">Apply Filters</button>
                     </div>
+                </div>
+
+                <div class="filters-row" style="margin-top: 14px;">
+                    <div class="filter-group" style="flex: 3;">
+                        <label>Log Levels</label>
+                        <div class="level-checkboxes" id="levelCheckboxes">
+                            @php $selectedLevels = (array) request('level', []); @endphp
+                            @foreach(['info', 'warning', 'error', 'debug', 'notice', 'critical'] as $lvl)
+                                <label class="level-checkbox-item">
+                                    <input type="checkbox" name="level[]" value="{{ $lvl }}" {{ in_array($lvl, $selectedLevels) ? 'checked' : '' }}>
+                                    {{ ucfirst($lvl) }}
+                                </label>
+                            @endforeach
+                        </div>
+                    </div>
+
                     <div class="auto-refresh">
                         <label>
                             <input type="checkbox" id="autoRefreshToggle"> Auto Refresh (10s)
+                        </label>
+                        <label>
+                            <input type="checkbox" id="alertToggle" checked> Live Alerts
                         </label>
                     </div>
                 </div>
             </form>
         </div>
-        
-        <!-- Bulk Actions Bar -->
+
         <div class="bulk-actions" id="bulkActions">
-            <div class="selected-count">
-                <span id="selectedCount">0</span> log(s) selected
-            </div>
+            <div class="selected-count"><span id="selectedCount">0</span> log(s) selected</div>
             <div class="btn-group">
                 <button class="btn btn-danger" id="bulkDeleteBtn" onclick="confirmBulkDelete()">Delete Selected</button>
                 <button class="btn btn-secondary" onclick="clearSelection()">Cancel</button>
             </div>
         </div>
-        
-        <!-- Bulk Delete Form -->
+
         <form id="bulkDeleteForm" method="POST" action="/logs/bulk-delete" style="display: none;">
             @csrf
             @method('DELETE')
             <input type="hidden" name="indices" id="bulkIndices">
         </form>
-        
-        <!-- Logs Table -->
+
         <div class="table-container">
             <table>
                 <thead>
@@ -695,29 +789,34 @@
                         <th class="checkbox-col"><input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll()"></th>
                         <th>Level</th>
                         <th>Message</th>
+                        <th>User</th>
                         <th>Time</th>
                     </tr>
                 </thead>
                 <tbody id="logsTableBody">
-                    @forelse($logs as $index => $log)
-                    <tr data-index="{{ $index }}" onclick="toggleRowSelection(this, event)">
+                    @forelse($logs as $log)
+                    <tr data-id="{{ $log['id'] }}" onclick="toggleRowSelection(this, event)">
                         <td class="checkbox-col" onclick="event.stopPropagation()">
-                            <input type="checkbox" class="row-checkbox" value="{{ $index }}">
+                            <input type="checkbox" class="row-checkbox" value="{{ $log['id'] }}">
                         </td>
                         <td>
-                            <span class="badge badge-{{ $log['level'] }}">
-                                {{ strtoupper($log['level']) }}
-                            </span>
+                            <span class="badge badge-{{ $log['level'] }}">{{ strtoupper($log['level']) }}</span>
                         </td>
-                        <td class="message-cell" onclick="showLogDetail('{{ addslashes($log['level']) }}', '{{ addslashes($log['message']) }}', '{{ $log['time'] }}')">
+                        <td class="message-cell" onclick="showLogDetail('{{ addslashes($log['level']) }}', '{{ addslashes($log['message']) }}', '{{ $log['time'] }}', '{{ addslashes($log['user_name'] ?? 'Unknown') }}')">
                             {{ $log['message'] }}
                             <button class="copy-btn" onclick="copyMessage('{{ addslashes($log['message']) }}', event)">Copy</button>
+                        </td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar" style="width:22px;height:22px;font-size:10px;">{{ strtoupper(substr($log['user_name'] ?? 'U', 0, 1)) }}</div>
+                                {{ $log['user_name'] ?? 'Unknown' }}
+                            </div>
                         </td>
                         <td>{{ $log['time'] }}</td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" style="text-align: center; padding: 40px;">
+                        <td colspan="5" style="text-align: center; padding: 40px;">
                             No logs found. Click "Generate Logs" to create demo logs.
                         </td>
                     </tr>
@@ -725,23 +824,21 @@
                 </tbody>
             </table>
         </div>
-        
-        <!-- Pagination -->
+
         @if($total > $perPage)
         <div class="pagination">
             @for($i = 1; $i <= $lastPage; $i++)
                 @if($i == $currentPage)
                     <span class="active">{{ $i }}</span>
                 @else
-                    <a href="?page={{ $i }}{{ request('search') ? '&search='.request('search') : '' }}{{ request('level') ? '&level='.request('level') : '' }}{{ request('date_from') ? '&date_from='.request('date_from') : '' }}{{ request('date_to') ? '&date_to='.request('date_to') : '' }}">
+                    <a href="?page={{ $i }}{{ request('search') ? '&search='.request('search') : '' }}{{ request('user_name') ? '&user_name='.request('user_name') : '' }}{{ request('date_from') ? '&date_from='.request('date_from') : '' }}{{ request('date_to') ? '&date_to='.request('date_to') : '' }}">
                         {{ $i }}
                     </a>
                 @endif
             @endfor
         </div>
         @endif
-        
-        <!-- Log Detail Modal -->
+
         <div id="logModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -758,6 +855,10 @@
                         <div class="detail-value" id="modalMessage"></div>
                     </div>
                     <div class="detail-row">
+                        <div class="detail-label">User</div>
+                        <div class="detail-value" id="modalUser"></div>
+                    </div>
+                    <div class="detail-row">
                         <div class="detail-label">Timestamp</div>
                         <div class="detail-value" id="modalTime"></div>
                     </div>
@@ -769,12 +870,11 @@
             </div>
         </div>
     </div>
-    
+
     <script>
-        // Track selected rows
         let selectedIndices = new Set();
-        
-        // Toggle row selection
+        let lastSeenTimestamp = {{ $nowTimestamp }};
+
         function toggleRowSelection(row, event) {
             const checkbox = row.querySelector('.row-checkbox');
             if (checkbox) {
@@ -789,12 +889,11 @@
                 updateBulkActions();
             }
         }
-        
-        // Toggle select all
+
         function toggleSelectAll() {
             const selectAll = document.getElementById('selectAllCheckbox');
             const checkboxes = document.querySelectorAll('.row-checkbox');
-            
+
             checkboxes.forEach(checkbox => {
                 checkbox.checked = selectAll.checked;
                 const row = checkbox.closest('tr');
@@ -808,23 +907,21 @@
             });
             updateBulkActions();
         }
-        
-        // Update bulk actions visibility
+
         function updateBulkActions() {
             const count = selectedIndices.size;
             const bulkDiv = document.getElementById('bulkActions');
             const selectedSpan = document.getElementById('selectedCount');
-            
+
             selectedSpan.textContent = count;
-            
+
             if (count > 0) {
                 bulkDiv.classList.add('show');
             } else {
                 bulkDiv.classList.remove('show');
             }
         }
-        
-        // Clear selection
+
         function clearSelection() {
             selectedIndices.clear();
             document.querySelectorAll('.row-checkbox').forEach(checkbox => {
@@ -834,128 +931,172 @@
             document.getElementById('selectAllCheckbox').checked = false;
             updateBulkActions();
         }
-        
-        // Confirm bulk delete
+
         function confirmBulkDelete() {
             if (selectedIndices.size === 0) {
                 alert('No logs selected');
                 return;
             }
-            
+
             if (confirm(`Delete ${selectedIndices.size} log(s)? This cannot be undone.`)) {
                 const indices = Array.from(selectedIndices);
                 document.getElementById('bulkIndices').value = JSON.stringify(indices);
                 document.getElementById('bulkDeleteForm').submit();
             }
         }
-        
-        // Copy message to clipboard
+
         function copyMessage(message, event) {
             event.stopPropagation();
             navigator.clipboard.writeText(message);
             const btn = event.target;
             const originalText = btn.textContent;
             btn.textContent = 'Copied!';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 1500);
+            setTimeout(() => { btn.textContent = originalText; }, 1500);
         }
-        
-        // Show log detail modal
+
         let currentModalMessage = '';
-        
-        function showLogDetail(level, message, time) {
+
+        function showLogDetail(level, message, time, userName) {
             document.getElementById('modalLevel').innerHTML = `<span class="badge badge-${level}">${level.toUpperCase()}</span>`;
             document.getElementById('modalMessage').innerHTML = message;
+            document.getElementById('modalUser').innerHTML = userName;
             document.getElementById('modalTime').innerHTML = time;
             currentModalMessage = message;
             document.getElementById('logModal').classList.add('show');
         }
-        
+
         function closeModal() {
             document.getElementById('logModal').classList.remove('show');
         }
-        
+
         function copyModalMessage() {
             navigator.clipboard.writeText(currentModalMessage);
             alert('Message copied to clipboard');
         }
-        
-        // Close modal on escape key
+
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
+            if (e.key === 'Escape') closeModal();
         });
-        
-        // Auto refresh functionality
+
         let autoRefreshInterval = null;
         let isRefreshing = false;
-        
+
         function startAutoRefresh() {
             if (autoRefreshInterval) clearInterval(autoRefreshInterval);
             autoRefreshInterval = setInterval(() => {
-                if (!isRefreshing) {
-                    refreshCounts();
-                }
+                if (!isRefreshing) refreshCounts();
             }, 10000);
         }
-        
+
         function stopAutoRefresh() {
             if (autoRefreshInterval) {
                 clearInterval(autoRefreshInterval);
                 autoRefreshInterval = null;
             }
         }
-        
+
         async function refreshCounts() {
             isRefreshing = true;
             try {
                 const response = await fetch('/logs/counts');
                 const data = await response.json();
-                
+
                 document.getElementById('infoCount').textContent = data.infoCount;
                 document.getElementById('warningCount').textContent = data.warningCount;
                 document.getElementById('errorCount').textContent = data.errorCount;
                 document.getElementById('debugCount').textContent = data.debugCount;
                 document.getElementById('totalCount').textContent = data.totalCount;
-                
-                // Update chart bars
+
                 updateChartBar('info', data.infoCount);
                 updateChartBar('warning', data.warningCount);
                 updateChartBar('error', data.errorCount);
                 updateChartBar('debug', data.debugCount);
                 updateChartBar('notice', data.noticeCount);
                 updateChartBar('critical', data.criticalCount);
-                
             } catch (error) {
                 console.error('Failed to refresh counts:', error);
             }
             isRefreshing = false;
         }
-        
+
         function updateChartBar(level, count) {
             const bar = document.querySelector(`.bar.${level}`);
             if (bar) {
                 const height = Math.min(120, count * 3);
                 bar.style.height = height + 'px';
             }
-            const countSpan = document.querySelector(`.bar-item-${level} .bar-count`);
-            if (countSpan) {
-                countSpan.textContent = count;
+        }
+
+        document.getElementById('autoRefreshToggle').addEventListener('change', function(e) {
+            if (e.target.checked) startAutoRefresh();
+            else stopAutoRefresh();
+        });
+
+        let alertPollInterval = null;
+        let alertsEnabled = true;
+
+        function startAlertPolling() {
+            if (alertPollInterval) clearInterval(alertPollInterval);
+            alertPollInterval = setInterval(checkForAlerts, 5000);
+        }
+
+        function stopAlertPolling() {
+            if (alertPollInterval) {
+                clearInterval(alertPollInterval);
+                alertPollInterval = null;
             }
         }
-        
-        // Auto refresh toggle
-        document.getElementById('autoRefreshToggle').addEventListener('change', function(e) {
-            if (e.target.checked) {
-                startAutoRefresh();
-            } else {
-                stopAutoRefresh();
+
+        async function checkForAlerts() {
+            if (!alertsEnabled) return;
+            try {
+                const response = await fetch(`/logs/check-alerts?since=${lastSeenTimestamp}`);
+                const data = await response.json();
+
+                lastSeenTimestamp = data.latestTimestamp;
+
+                data.alerts.forEach(alert => showToast(alert));
+            } catch (error) {
+                console.error('Failed to check alerts:', error);
             }
+        }
+
+        function showToast(log) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${log.level === 'critical' ? 'critical' : ''}`;
+
+            toast.innerHTML = `
+                <div class="toast-icon">${log.level === 'critical' ? '🔥' : '⚠️'}</div>
+                <div class="toast-body">
+                    <div class="toast-title">${log.level}</div>
+                    <div class="toast-message">${escapeHtml(log.message)}</div>
+                    <div class="toast-meta">${escapeHtml(log.user_name || 'Unknown')} · ${log.time}</div>
+                </div>
+                <button class="toast-close" onclick="dismissToast(this.parentElement)">&times;</button>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => dismissToast(toast), 8000);
+        }
+
+        function dismissToast(toast) {
+            if (!toast || !toast.parentElement) return;
+            toast.classList.add('fade-out');
+            setTimeout(() => toast.remove(), 300);
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        document.getElementById('alertToggle').addEventListener('change', function(e) {
+            alertsEnabled = e.target.checked;
         });
-        
-        // Debounced search
+
         let searchTimeout;
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
@@ -966,34 +1107,25 @@
                 }, 500);
             });
         }
-        
-        // Level and date filters auto-submit
-        const levelSelect = document.getElementById('levelSelect');
+
+        const userSelect = document.getElementById('userSelect');
         const dateFrom = document.getElementById('dateFrom');
         const dateTo = document.getElementById('dateTo');
-        
-        if (levelSelect) {
-            levelSelect.addEventListener('change', () => document.getElementById('filterForm').submit());
-        }
-        if (dateFrom) {
-            dateFrom.addEventListener('change', () => document.getElementById('filterForm').submit());
-        }
-        if (dateTo) {
-            dateTo.addEventListener('change', () => document.getElementById('filterForm').submit());
-        }
-        
-        // Clear filters button (hidden but functional)
-        function clearFilters() {
-            window.location.href = '/logs';
-        }
-        
-        // Close modal when clicking outside
+
+        if (userSelect) userSelect.addEventListener('change', () => document.getElementById('filterForm').submit());
+        if (dateFrom) dateFrom.addEventListener('change', () => document.getElementById('filterForm').submit());
+        if (dateTo) dateTo.addEventListener('change', () => document.getElementById('filterForm').submit());
+
+        document.querySelectorAll('#levelCheckboxes input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', () => document.getElementById('filterForm').submit());
+        });
+
         window.onclick = function(event) {
             const modal = document.getElementById('logModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
+            if (event.target === modal) closeModal();
+        };
+
+        startAlertPolling();
     </script>
 </body>
 </html>
